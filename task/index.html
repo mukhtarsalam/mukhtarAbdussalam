@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="API list and description">
+    <meta name="author" content="Mukhtar Abdussalam">
+    <title>List of API and description</title>
+    <link rel="stylesheet" href="lib/css/style.css">
+</head>
+<body>
+    <div id="preloader"></div>
+    <div id="apptable">
+        <table>
+            
+                <tr>
+                    <th>API Name</th>
+                    <th>API Description</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td rowspan="2">1. Ocean</td>
+                    <td>Returns the ocean or sea for the given latitude/longitude</td>
+                    <td rowspan="2">
+                        <button id="subOcean">Submit</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="oceanLat">Latitude</label>
+                        <input id="oceanLat" type="text" name="oceanLat">
+                        <label for="oceanLng">Longitude</label>
+                        <input id="oceanLng" type="text" name="oceanLang">
+                    </td>
+                </tr>
+                <tr>
+                    <tr>
+                        <td rowspan="2">2. Timezone</td>
+                        <td>Returns the timezone at the lat/lng with gmt offset (1. January) and dst offset (1. July)</td>
+                        <td rowspan="2">
+                            <button id="subTimezone">Submit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="timeLat">Latitude</label>
+                            <input id="timeLat" type="text" name="timeLat">
+                            <label for="timeLng">Longitude</label>
+                            <input id="timeLng" type="text" name="timeLng">
+                        </td>
+                    </tr>
+                    <tr>
+                        <tr>
+                            <td rowspan="2">3. Neighbours</td>
+                            <td>Returns the neighbours of a toponym, currently only implemented for countries</td>
+                            <td rowspan="2">
+                                <button id="subCountry">Submit</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select id="selCountry" title="Select Country">
+                                    <option value="">Select Country</option>
+                                    <option value="3017382">France</option>
+                                    <option value="2921044">Germany</option>
+                                    <option value="3175395">Italy</option>
+                                </select>
+                            </td>
+                        </tr>
+                    <tr>
+                    <th class="result" colspan="100%">Results</th>
+                </tr>
+                <tr>
+                    <td colspan="3">Ocean Result</td>
+                </tr>
+                <tr>
+                    <td class="resultSection">Ocean or Sea Name:</td>
+                    <td class="resultSection" id="oceanName" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td class="resultSection">Distance:</td>
+                    <td class="resultSection" id="oceanDistance" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td class="resultSection">Geoname ID:</td>
+                    <td class="resultSection" id="oceanGeonameId" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td colspan="3">Timezone Result</td>
+                </tr>
+                <tr>
+                    <td class="resultSection">Timezone Latitude:</td>
+                    <td class="resultSection" id="timezoneLat" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td class="resultSection">Timezone Longitude:</td>
+                    <td class="resultSection" id="timezoneLng" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td class="resultSection">GMT Offset:</td>
+                    <td class="resultSection" id="timezoneGmtOff" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td class="resultSection">DST Offset:</td>
+                    <td class="resultSection" id="timezonedstOff" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td class="resultSection">Raw Offset:</td>
+                    <td class="resultSection" id="timezonedrawOff" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td colspan="3">Nearest Neighbour Result</td>
+                </tr>
+                <tr>
+                    <td class="resultSection">First Nearest Neighbour</td>
+                    <td class="resultSection" id="country" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td class="resultSection">Second Nearest Neighbour</td>
+                    <td class="resultSection" id="country2" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td class="resultSection">Third Nearest Neighbour</td>
+                    <td class="resultSection" id="country3" colspan="2"></td>
+                </tr>
+        </table>
+    </div>
+    <script type="application/javascript" src="lib/js/jquery-3.7.1.min.js"></script>
+    <script type="application/javascript" src="lib/js/script.js"></script>
+</body>
+</html>
