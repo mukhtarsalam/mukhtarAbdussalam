@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Map and country details">
+    <meta name="author" content="Mukhtar Abdussalam">
+    <title>Country details with map</title>
+    <link rel="stylesheet" href="lib/css/leaflet.css"/>
+    <link rel="stylesheet" href="lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/css/style.css">
+</head>
+<body>
+    <div id="preloader"></div>
+    <nav class="navbar fixed-top justify-content-center">
+        <select name="selectCountry" id="selectCountry" title="selectCountry">
+            <option value="" selected>Select a country</option>
+        </select>
+    </nav>
+    <div id="map"></div>
+    <div id="icons">
+        <ul class="list-group">
+            <li class="icons"><a href="#"><i class="fa-solid fa-info f-icon"></i></a></li>
+            <li class="icons"><a href="#"><i class="fa-solid fa-cloud f-icon"></i></a></li>
+            <li class="icons"><a href="#"><i class="fa-solid fa-coins f-icon"></i></a></li>
+            <li class="icons"><a href="#"><i class="fa-brands fa-wikipedia-w f-icon"></i></a></li>
+          </ul>
+    </div>
+
+    <script type="application/javascript" src="lib/js/leaflet.js"></script>
+    <script type="application/javascript" src="lib/js/jquery-3.7.1.min.js"></script>
+    <script type="application/javascript" src="lib/js/script.js"></script>
+    <script src="https://kit.fontawesome.com/c9c135538d.js" crossorigin="anonymous"></script>
+</body>
+</html>
