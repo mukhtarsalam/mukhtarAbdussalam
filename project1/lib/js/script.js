@@ -89,7 +89,16 @@ $('#selectCountry').change(function() {
           console.log(name)
           console.log(countryName)
           if (result.status.name == "ok") {
-              
+            $.ajax({
+              url: "lib/php/geoJson.php",
+              type: 'POST',
+              dataType: 'json',
+              success: function(result) {
+                const filterData = result.data.border.features.filter((a) => (a.properties.iso_a3 === name));
+                border = L.geoJSON(filterData[0]); 
+                zoomed = map.fitBounds(border.getBounds());
+                  }
+                })
           }
       
       },
@@ -97,15 +106,6 @@ $('#selectCountry').change(function() {
           // your error code
       }
   }); 
-    $.ajax({
-        url: "lib/php/geoJson.php",
-        type: 'POST',
-        dataType: 'json',
-        success: function(result) {
-          const filterData = result.data.border.features.filter((a) => (a.properties.iso_a3 === name));
-          border = L.geoJSON(filterData[0]); 
-          zoomed = map.fitBounds(border.getBounds());
-            }
-          })
+    
         });
         
