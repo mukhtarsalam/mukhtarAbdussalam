@@ -1,8 +1,7 @@
 <?php
-include_once('apiKeys.php');
 	$executionStartTime = microtime(true);
 
-    $url='https://api.opencagedata.com/geocode/v1/json?countrycode='. $_REQUEST['countryCode']  .'&pretty=1&key='.$openCageKey.'&q=' . $_REQUEST['country'] ;
+    $url='https://api.api-ninjas.com/v1/airports?country='. $_REQUEST['countryCode'].'&X-Api-Key=DqULXRnJedTl25wlToclz8ySUDyGa0BDTnDwBpNZ';
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

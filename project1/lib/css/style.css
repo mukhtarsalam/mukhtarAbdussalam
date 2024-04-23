@@ -1,68 +1,283 @@
-body{
-    margin: 0;
-    padding: 0;
+body {
+  margin: 0;
+  padding: 0;
 }
-html, body, #map {
-    height: 100%;
-    width: 100vw;
+html,
+body,
+#map {
+  height: 100%;
+  width: 100vw;
 }
 #preloader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 99999;
-    overflow: hidden;
-    background: #fff;
-    }
-    #preloader:before {
-    content: "";
-    position: fixed;
-    top: calc(50% - 30px);
-    left: calc(50% - 30px);
-    border: 6px solid #f2f2f2;
-    border-top: 6px solid #56829e ;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    -webkit-animation: animate-preloader 1s linear infinite;
-animation: animate-preloader 1s linear infinite;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: #fff;
+}
+#preloader:before {
+  content: "";
+  position: fixed;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  border: 6px solid #f2f2f2;
+  border-top: 6px solid #56829e;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: animate-preloader 1s linear infinite;
+  animation: animate-preloader 1s linear infinite;
 }
 @-webkit-keyframes animate-preloader {
-0% {
--webkit-transform: rotate(0deg);
-transform: rotate(0deg);
-}
-100% {
--webkit-transform: rotate(360deg);
-transform: rotate(360deg);
-}
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 @keyframes animate-preloader {
-0% {
--webkit-transform: rotate(0deg);
-transform: rotate(0deg);
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
-100% {
--webkit-transform: rotate(360deg);
-transform: rotate(360deg);
+#icons {
+  position: fixed;
+  top: 80px;
+  left: 10px;
+  z-index: 800;
+  display: none;
 }
+.navbar {
+  z-index: 600;
 }
-#icons{
-    position: fixed;
-    top: 80px;
-    left: 10px;
-    z-index: 99998;
+.icon-btn {
+  width: 33px;
+  height: 30px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+  cursor: pointer;
+  text-align: center;
+  color: #000000;
+  border: none;
 }
-.icons{
-    list-style: none;
+
+.weather-modal {
+  background: url("../img/weather.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
 }
-.f-icon{
-    color: #000000;
-    border: 1px solid rgb(128, 128, 128);
-    text-align: center;
-    background-color: azure;
-    margin: 3px 0;
-    padding: 5px;
+table {
+  width: 100%;
+  margin: auto;
+  border-collapse: collapse;
+  border: 1px solid rgb(6, 116, 11);
+  background-color: rgb(226, 235, 217);
+}
+
+td {
+  padding: 5px 10px;
+  margin: 5px;
+  border: 1px solid rgb(176, 250, 64);
+}
+.transform {
+  text-transform: capitalize;
+}
+.info-title {
+  background-color: rgb(6, 116, 11);
+  color: #f2f2f2;
+  font-size: 16px;
+  font-weight: bold;
+}
+.currency {
+  background-color: rgb(6, 116, 11);
+  color: #f2f2f2;
+  border: 2px solid rgb(176, 250, 64);
+  padding: 20px;
+  border-radius: 10px;
+}
+.container {
+  padding: 20px 70px;
+  color: #fff;
+}
+
+.current-info {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.date-container {
+  font-weight: 100;
+}
+.date-container .time {
+  font-size: 50px;
+}
+
+.date-container #am-pm {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.date-container .date {
+  font-size: 20px;
+}
+
+.place-container {
+  text-align: end;
+}
+
+.place-container .time-zone {
+  font-size: 20px;
+  font-weight: 100;
+}
+
+.place-container .country {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.current-info .others {
+  display: flex;
+  flex-direction: column;
+  background: rgba(24, 24, 27, 0.6);
+  padding: 10px;
+  border-radius: 10px;
+  margin: 5px 0;
+  border: 1px solid #eee;
+}
+
+.current-info .others .weather-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.future-forecast {
+  background: rgba(24, 24, 27, 0.8);
+  padding: 20px 10px;
+  position: fixed;
+  bottom: 70px;
+  left: 0;
+  display: flex;
+  color: white;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+}
+
+.future-forecast .today {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.future-forecast .today .day {
+  padding: 5px 15px;
+  background: #3c3c44;
+  border-radius: 50px;
+  text-align: center;
+}
+
+.future-forecast .today .temp {
+  font-size: 18px;
+  padding-top: 15px;
+}
+
+.future-forecast .weather-forecast {
+  display: flex;
+}
+
+.weather-forecast .weather-forecast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+  border: 1px solid #eee;
+  padding: 15px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.weather-forecast .weather-forecast-item .day {
+  padding: 5px 15px;
+  background: #3c3c44;
+  border-radius: 50px;
+  text-align: center;
+}
+
+.weather-forecast .weather-forecast-item .temp {
+  font-weight: 100;
+  font-size: 12px;
+}
+
+@media only screen and (max-width: 730px) {
+  .container {
+    padding: 20px;
+  }
+
+  .future-forecast {
+    justify-content: start;
+    align-items: none;
+    overflow-y: scroll;
+  }
+
+  .future-forecast .today .temp {
+    font-size: 16px;
+  }
+
+  .date-container .time {
+    font-size: 30px;
+  }
+
+  .date-container #am-pm {
+    font-size: 15px;
+  }
+
+  .date-container .date {
+    font-size: 15px;
+  }
+
+  .place-container {
+    text-align: end;
+    margin-top: 15px;
+  }
+
+  .place-container .time-zone {
+    font-size: 15px;
+  }
+
+  .current-info .others {
+    padding: 12px;
+  }
+
+  .current-info .others .weather-item {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 1400px) {
+  .future-forecast {
+    justify-content: start;
+    align-items: none;
+    overflow-x: scroll;
+  }
 }
