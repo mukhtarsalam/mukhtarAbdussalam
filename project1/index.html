@@ -14,12 +14,13 @@
     <link rel="stylesheet" href="lib/css/style.css" />
     <link rel="stylesheet" href="lib/css/markerCluster.css" />
     <link rel="stylesheet" href="lib/css/markerCluster.Default.css" />
+    <link rel="stylesheet" href="lib/css/leaflet.extra-markers.min.css" />
   </head>
   <body>
     <div id="preloader"></div>
     <nav class="navbar fixed-top justify-content-center">
       <select name="selectCountry" id="selectCountry" title="selectCountry">
-        <option value="" selected>Select a country</option>
+        <option value="" selected id="selectedCountry"></option>
       </select>
     </nav>
     <div id="map"></div>
@@ -105,7 +106,7 @@
               </tr>
               <tr>
                 <td class="info-title">Flag</td>
-                <td><embed src="" type="" id="flag" width="100%" /></td>
+                <td><embed src="" type="" id="flag" /></td>
               </tr>
               <tr>
                 <td class="info-title">Population</td>
@@ -164,7 +165,7 @@
             </button>
           </div>
           <div class="modal-body weather-modal">
-            <div class="container">
+            <div class="weather-container">
               <div class="current-info">
                 <div class="date-container">
                   <div class="time" id="time">
@@ -250,11 +251,6 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal">
-              Close
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -271,7 +267,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="currencyModalTitle">
-              Currency and Exchange rate
+              Currency exchange rate
             </h5>
             <button
               type="button"
@@ -282,13 +278,39 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <div id="currencyExchange" class="currency"></div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal">
-              Close
-            </button>
+          <div class="modal-body currency-body">
+            <div class="currency-container">
+              <div class="wrapper">
+                <form>
+                  <div class="amount">
+                    <p>Amount</p>
+                    <input type="text" value="1" id="amount" />
+                  </div>
+                  <div class="convert_box">
+                    <div class="from">
+                      <p>From</p>
+                      <div class="select_input">
+                        <img
+                          src="https://flagcdn.com/48x36/us.png"
+                          alt=""
+                        /><span class="currency-name"> USD</span>
+                      </div>
+                    </div>
+                    <div class="to">
+                      <p>To</p>
+                      <div class="select_input">
+                        <img src="" alt="" id="countryCurrencyFlag" />
+                        <span id="countryCurrency" class="currency-name">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="result" id="result">
+                      Getting Exchange Rate............
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -348,5 +370,9 @@
       src="lib/js/bootstrap.min.js"
     ></script>
     <script src="lib/js/fontawesome.js" type="application/javascript"></script>
+    <script
+      src="lib/js/leaflet.extra-markers.min.js"
+      type="application/javascript"
+    ></script>
   </body>
 </html>

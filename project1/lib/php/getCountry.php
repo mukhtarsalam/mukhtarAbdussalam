@@ -2,7 +2,7 @@
 include_once('apiKeys.php');
 	$executionStartTime = microtime(true);
 
-    $url='https://api.opencagedata.com/geocode/v1/json?countrycode='. $_REQUEST['countryCode']  .'&pretty=1&key='.$openCageKey.'&q=' . $_REQUEST['userCountry'] ;
+    $url='https://api.opencagedata.com/geocode/v1/json?q='. $_REQUEST['latitude'].'%2C'.$_REQUEST['longitude'] .'&pretty=1&key='.$openCageKey;
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
