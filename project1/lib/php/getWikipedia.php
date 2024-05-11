@@ -1,8 +1,7 @@
 <?php
 include_once('apiKeys.php');
 	$executionStartTime = microtime(true);
-
-    $url='https://api.opencagedata.com/geocode/v1/json?q='. $_REQUEST['latitude'].'%2C'.$_REQUEST['longitude'] .'&pretty=1&key='.$openCageKey;
+$url = "https://en.wikipedia.org/w/api.php?action=opensearch&limit=1&format=json&search=".$_REQUEST['selectCountry'];
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -28,16 +27,15 @@ include_once('apiKeys.php');
 		 $output['data'] = null;
 		}else{
 			if(isset($decode['error'])){
-			 $output['status']['code'] = $weather['error']['code'];
+			 $output['status']['code'] = $decode['error']['code'];
         	 $output['status']['name'] = "Failure - API";
-       		 $output['status']['description'] = $weather['error']['message'];
+       		 $output['status']['description'] = $decode['error']['message'];
   	  		 $output['status']['seconds'] = number_format((microtime(true) - $executionStartTime), 3);
 	  	  	 $output['data'] = null;
 			}else{
 				// create array containing only the required properties
 				$countryDetail = [];
-				$temp['iso2'] = $decode['results'][0]['components']['ISO_3166-1_alpha-2'];
-				$temp['countryName'] = $decode['results'][0]['components']['country'];
+				$temp['link'] = $decode[3][0];
 				array_push($countryDetail, $temp);
 					$output['status']['code'] = "200";
 					$output['status']['name'] = "ok";

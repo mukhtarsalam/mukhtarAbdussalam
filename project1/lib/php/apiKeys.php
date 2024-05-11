@@ -4,5 +4,6 @@ $geonameUser = "mukhtar";
 $openweatherKey = "62d6c562bcd1d64dddf001e87ed31aea";
 $appNinjaKey = "DqULXRnJedTl25wlToclz8ySUDyGa0BDTnDwBpNZ";
 $openCageKey = "34b7b6d37bce4058a65794e5b4eb8908";
+$news = "pub_4394493097d6c4cb0933dbd110d52e8fd7d75";
 
 ?>

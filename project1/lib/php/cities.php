@@ -2,8 +2,8 @@
 include_once('apiKeys.php');
 	$executionStartTime = microtime(true);
 
-    $url='https://api.opencagedata.com/geocode/v1/json?q='. $_REQUEST['latitude'].'%2C'.$_REQUEST['longitude'] .'&pretty=1&key='.$openCageKey;
-	$ch = curl_init();
+    $url='https://api.api-ninjas.com/v1/city?country='. $_REQUEST['countryCode'].'&X-Api-Key='.$appNinjaKey.'&limit=30';
+		$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_URL,$url);
@@ -28,22 +28,26 @@ include_once('apiKeys.php');
 		 $output['data'] = null;
 		}else{
 			if(isset($decode['error'])){
-			 $output['status']['code'] = $weather['error']['code'];
+			 $output['status']['code'] = $decode['error']['code'];
         	 $output['status']['name'] = "Failure - API";
-       		 $output['status']['description'] = $weather['error']['message'];
+       		 $output['status']['description'] = $decode['error']['message'];
   	  		 $output['status']['seconds'] = number_format((microtime(true) - $executionStartTime), 3);
 	  	  	 $output['data'] = null;
 			}else{
-				// create array containing only the required properties
-				$countryDetail = [];
-				$temp['iso2'] = $decode['results'][0]['components']['ISO_3166-1_alpha-2'];
-				$temp['countryName'] = $decode['results'][0]['components']['country'];
-				array_push($countryDetail, $temp);
+				$cities = [];
+				foreach($decode as $city){
+					$temp = null;
+					$temp['name'] = $city['name'];
+					$temp['latitude'] = $city['latitude'];
+					$temp['longitude'] = $city['longitude'];
+
+					array_push($cities, $temp);
+				}
 					$output['status']['code'] = "200";
 					$output['status']['name'] = "ok";
 					$output['status']['description'] = "success";
 					$output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
-					$output['data'] = $countryDetail;	
+					$output['data'] = $cities;	
 
 			}
 		}
@@ -55,5 +59,6 @@ include_once('apiKeys.php');
 	header('Content-Type: application/json; charset=UTF-8');
 
 	echo json_encode($output); 
+
 
 ?>

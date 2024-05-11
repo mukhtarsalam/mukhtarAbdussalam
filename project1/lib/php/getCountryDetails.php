@@ -2,7 +2,7 @@
 include_once('apiKeys.php');
 	$executionStartTime = microtime(true);
 
-    $url='https://api.opencagedata.com/geocode/v1/json?q='. $_REQUEST['latitude'].'%2C'.$_REQUEST['longitude'] .'&pretty=1&key='.$openCageKey;
+    $url='https://restcountries.com/v3.1/name/'.$_REQUEST['selectCountry'].'?fullText=true';
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -28,16 +28,27 @@ include_once('apiKeys.php');
 		 $output['data'] = null;
 		}else{
 			if(isset($decode['error'])){
-			 $output['status']['code'] = $weather['error']['code'];
+			 $output['status']['code'] = $decode['error']['code'];
         	 $output['status']['name'] = "Failure - API";
-       		 $output['status']['description'] = $weather['error']['message'];
+       		 $output['status']['description'] = $decode['error']['message'];
   	  		 $output['status']['seconds'] = number_format((microtime(true) - $executionStartTime), 3);
 	  	  	 $output['data'] = null;
 			}else{
 				// create array containing only the required properties
 				$countryDetail = [];
-				$temp['iso2'] = $decode['results'][0]['components']['ISO_3166-1_alpha-2'];
-				$temp['countryName'] = $decode['results'][0]['components']['country'];
+                $temp = null;
+				$temp['name'] = $decode[0]['name']['common'];
+				$temp['officialName'] = $decode[0]['name']['official'];
+                $temp['capital'] = $decode[0]['capital'][0];
+                $temp['flag'] = $decode[0]['flags']['png'];
+                $temp['population'] = $decode[0]['population'];
+                $temp['continent'] = $decode[0]['continents'][0];
+                $temp['area'] = $decode[0]['area'];
+                $temp['currency'] = $decode[0]['currencies'];
+                $temp['weekStarts'] = $decode[0]['startOfWeek'];
+                $temp['languages'] = $decode[0]['languages'];
+				$temp['latitude'] = $decode[0]['latlng'][0];
+				$temp['longitude'] = $decode[0]['latlng'][1];
 				array_push($countryDetail, $temp);
 					$output['status']['code'] = "200";
 					$output['status']['name'] = "ok";

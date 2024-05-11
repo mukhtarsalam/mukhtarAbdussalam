@@ -34,9 +34,6 @@ body,
   -webkit-animation: animate-preloader 1s linear infinite;
   animation: animate-preloader 1s linear infinite;
 }
-#flag {
-  width: 30%;
-}
 @-webkit-keyframes animate-preloader {
   0% {
     -webkit-transform: rotate(0deg);
@@ -57,66 +54,64 @@ body,
     transform: rotate(360deg);
   }
 }
-#icons {
+
+#selectContainer {
   position: fixed;
-  top: 80px;
-  left: 10px;
-  z-index: 800;
-}
-.navbar {
-  z-index: 600;
-}
-.icon-btn {
-  width: 33px;
-  height: 30px;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
-  cursor: pointer;
-  text-align: center;
-  color: #000000;
-  border: none;
-  margin-top: 10px;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  padding: 11px 0;
 }
 
+#selectCountry {
+  width: 200px;
+  margin: 0 auto;
+}
+#flagContainer {
+  width: 50%;
+  margin: 20px auto;
+  text-align: center;
+}
+#flag {
+  width: 100%;
+}
+#newsImage {
+  width: 100%;
+  height: auto;
+}
 table {
   width: 100%;
-  margin: auto;
   border-collapse: collapse;
-  border: 1px solid rgb(6, 116, 11);
-  background-color: rgb(226, 235, 217);
 }
 
 td {
-  padding: 5px 10px;
-  margin: 5px;
-  border: 1px solid rgb(176, 250, 64);
+  text-align: left;
+  padding: 8px 15px;
 }
-.transform {
-  text-transform: capitalize;
+tr:nth-child(odd) {
+  background-color: #f2f2f2;
 }
-.info-title {
-  background-color: rgb(6, 116, 11);
-  color: #f2f2f2;
-  font-size: 16px;
+td:last-child {
+  text-align: end;
+}
+.info {
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 5px;
+  width: 30px;
+  text-align: center;
+}
+.name {
   font-weight: bold;
 }
-.currency {
-  background-color: rgb(6, 116, 11);
-  color: #f2f2f2;
-  border: 2px solid rgb(176, 250, 64);
-  padding: 20px;
-  border-radius: 10px;
-}
 .weather-modal {
-  background: url("../img/weather.jpg");
+  background: url("../img/weather-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
-  height: 60vh;
   font-family: "Poppins", sans-serif;
 }
-.weather-container {
-  padding: 10px 40px;
+.container {
   color: #fff;
 }
 
@@ -129,16 +124,15 @@ td {
   font-weight: 100;
 }
 .date-container .time {
-  font-size: 50px;
+  font-size: 32px;
 }
 
 .date-container #am-pm {
-  font-size: 20px;
-  margin-left: 10px;
+  font-size: 16px;
 }
 
 .date-container .date {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .place-container {
@@ -151,36 +145,30 @@ td {
 }
 
 .place-container .country {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 100;
 }
 
-.current-info .others {
+.others {
   display: flex;
   flex-direction: column;
   background: rgba(24, 24, 27, 0.6);
-  padding: 10px;
+  padding: 5px;
   border-radius: 10px;
   margin: 5px 0;
   border: 1px solid #eee;
 }
 
-.current-info .others .weather-item {
+.others .weather-item {
   display: flex;
   justify-content: space-between;
 }
 
 .future-forecast {
-  background: rgba(24, 24, 27, 0.8);
-  padding: 20px 10px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  padding: 5px;
   display: flex;
   color: white;
   width: 100%;
-  align-items: center;
-  justify-content: center;
   overflow-y: hidden;
 }
 
@@ -189,8 +177,6 @@ td {
   align-items: center;
   justify-content: center;
   border: 1px solid #eee;
-  border-radius: 10px;
-  padding: 10px;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.2);
 }
@@ -216,9 +202,9 @@ td {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0 10px;
+  margin: 0 5px;
   border: 1px solid #eee;
-  padding: 15px;
+  padding: 5px;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.2);
 }
@@ -234,134 +220,19 @@ td {
   font-weight: 100;
   font-size: 12px;
 }
-
-.currency-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "poppins", sans-serif;
-  min-height: 50vh;
-  padding: 10px;
-  background-color: rgb(0, 128, 0);
-  overflow: hidden;
+.single-news-link,
+.single-news-link:hover {
+  text-decoration: none;
 }
-
-.currency-container {
-  background-color: #fff;
-  width: 80%;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+.single-news {
+  border: 1px solid #18f504;
+  padding: 5px;
+  margin: 3px;
+  border-radius: 10px;
+  color: #000;
 }
-
-.wrapper {
-  color: #2c3e50;
-  padding: 2rem;
-}
-
-.currency-container .from {
-  margin: 5px 0;
-}
-
-.currency-container .from p {
-  font-size: 1rem;
-  margin-bottom: 7px;
-}
-
-.currency-container form input {
-  width: 100%;
-  height: 40px;
-  border-radius: 5px;
-  font-size: 1rem;
-  padding: 0 15px;
-  background-color: transparent;
-  color: rgb(0, 128, 0);
-  border: 1px solid rgb(0, 128, 0);
-  transition: all 0.3s ease;
-  outline: none;
-}
-
-.currency-container form .convert_box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.currency-container form .from,
-.currency-container form .to {
-  width: 100%;
-}
-
-.currency-container .convert_box .select_input {
-  display: flex;
-  width: 100%;
-  border: 1px solid rgb(0, 128, 0);
-  height: 40px;
-  align-items: center;
-  padding: 0 20px;
-  background-color: transparent;
-  transition: all 0.3s ease;
-  border-radius: 5px;
-}
-
-.currency-container .convert_box .select_input img {
-  min-width: 20px;
-}
-
-.currency-container form .result {
-  font-size: 1.1rem;
-  margin: 1.5rem 0 0.5rem;
-  color: #2ecc71;
-}
-.currency-name {
-  margin-left: 10px;
-  font-weight: bold;
-}
-
-@media only screen and (max-width: 730px) {
-  .container {
-    padding: 20px;
-  }
-
-  .future-forecast {
-    justify-content: start;
-    align-items: none;
-    overflow-y: scroll;
-  }
-
-  .future-forecast .today .temp {
-    font-size: 16px;
-  }
-
-  .date-container .time {
-    font-size: 30px;
-  }
-
-  .date-container #am-pm {
-    font-size: 15px;
-  }
-
-  .date-container .date {
-    font-size: 15px;
-  }
-
-  .place-container {
-    text-align: end;
-    margin-top: 15px;
-  }
-
-  .place-container .time-zone {
-    font-size: 15px;
-  }
-
-  .current-info .others {
-    padding: 12px;
-  }
-
-  .current-info .others .weather-item {
-    font-size: 14px;
-  }
+.news-published {
+  font-size: 10px;
 }
 
 @media only screen and (max-width: 1400px) {
