@@ -8,352 +8,259 @@
     />
     <meta name="description" content="Map and country details" />
     <meta name="author" content="Mukhtar Abdussalam" />
-    <title>Country details with map</title>
+    <title>Gazetteer</title>
+    <link rel="icon" type="image/x-icon" href="lib/img/favicon-16x16.png">
     <link rel="stylesheet" href="lib/css/leaflet.css" />
     <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="lib/css/style.css" />
     <link rel="stylesheet" href="lib/css/markerCluster.css" />
     <link rel="stylesheet" href="lib/css/markerCluster.Default.css" />
     <link rel="stylesheet" href="lib/css/leaflet.extra-markers.min.css" />
+    <link rel="stylesheet" href="lib/css/easy-button.css" />
+    <link rel="stylesheet" href="lib/css/toastify.min.css" />
+    <link rel="stylesheet" href="lib/css/style.css" />
   </head>
   <body>
     <div id="preloader"></div>
-    <nav class="navbar fixed-top justify-content-center">
-      <select name="selectCountry" id="selectCountry" title="selectCountry">
-        <option value="" selected id="selectedCountry"></option>
+    <span id="selectContainer">
+      <select name="selectCountry" id="selectCountry" title="selectCountry" class="form-select shadow-sm"> </select>
       </select>
-    </nav>
+    </span>
     <div id="map"></div>
-    <div id="icons">
-      <ul class="list-group">
-        <li class="list-icons">
-          <button
-            type="button"
-            class="icon-btn"
-            data-toggle="modal"
-            data-target="#infoModal"
-          >
-            <i class="fa-solid fa-info f-icon"></i>
-          </button>
-        </li>
-        <li class="list-icons">
-          <button
-            type="button"
-            class="icon-btn"
-            data-toggle="modal"
-            data-target="#weatherModal"
-          >
-            <i class="fa-solid fa-cloud f-icon"></i>
-          </button>
-        </li>
-        <li class="list-icons">
-          <button
-            type="button"
-            class="icon-btn"
-            data-toggle="modal"
-            data-target="#currencyModal"
-          >
-            <i class="fa-solid fa-coins f-icon"></i>
-          </button>
-        </li>
-        <li class="list-icons">
-          <button
-            type="button"
-            class="icon-btn"
-            data-toggle="modal"
-            data-target="#wikipediaModal"
-          >
-            <i class="fa-brands fa-wikipedia-w f-icon"></i>
-          </button>
-        </li>
-      </ul>
-    </div>
     <!-- Info Modal -->
-    <div
-      class="modal fade"
-      id="infoModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="infoModalTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="infoModalTitle">Country Info</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <table>
-              <tr>
-                <td class="info-title">Name</td>
-                <td id="countryName"></td>
-              </tr>
-              <tr>
-                <td class="info-title">Official Name</td>
-                <td id="officialName"></td>
-              </tr>
-              <tr>
-                <td class="info-title">Capital</td>
-                <td id="capital"></td>
-              </tr>
-              <tr>
-                <td class="info-title">Flag</td>
-                <td><embed src="" type="" id="flag" /></td>
-              </tr>
-              <tr>
-                <td class="info-title">Population</td>
-                <td id="population"></td>
-              </tr>
-              <tr>
-                <td class="info-title">Continent</td>
-                <td id="continent"></td>
-              </tr>
-              <tr>
-                <td class="info-title">Sub Region</td>
-                <td id="subRegion"></td>
-              </tr>
-              <tr>
-                <td class="info-title">Area</td>
-                <td id="area"></td>
-              </tr>
-              <tr>
-                <td class="info-title">Currency</td>
-                <td id="currency"></td>
-              </tr>
-              <tr>
-                <td class="info-title">Start of Week</td>
-                <td id="weekStart" class="transform"></td>
-              </tr>
-            </table>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal">
-              Close
-            </button>
-          </div>
-        </div>
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success">
+        <h1 class="modal-title fs-5 text-white" id="infoModalLabel"><i class="fa-solid fa-info info text-success"></i> Country Info</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <div id="flagContainer"><img src="" alt="Flag" id="flag">
+          <h4 class="name"></h4></div>
+          <tr>
+            <td><i class="fa-solid fa-city text-success fa-xl"></i></td>
+            <td>Capital City</td>
+            <td id="capital"></td>
+          </tr>
+
+          <tr>
+            <td><i class="fa-solid fa-person text-success fa-xl"></i></td>
+            <td>Population</td>
+            <td id="population"></td>
+          </tr>
+          <tr>
+            <td><i class="fa-solid fa-globe text-success fa-xl"></i></td>
+            <td>Continent</td>
+            <td id="continent"></td>
+          </tr>
+          <tr>
+            <td><i class="fa-solid fa-ruler-combined text-success fa-xl"></i></td>
+            <td>Area (km<sup>2</sup>)</sup></td>
+            <td id="area"></td>
+          </tr>
+          <tr>
+            <td><i class="fa-solid fa-coins text-success fa-xl"></i></td>
+            <td>Currency</td>
+            <td id="currency"></td>
+          </tr>
+          <tr>
+            <td><i class="fa-solid fa-calendar-week text-success fa-xl"></i></td>
+            <td>Start of Week</td>
+            <td id="week"></td>
+          </tr>
+          <tr>
+            <td><i class="fa-solid fa-language text-success fa-xl"></i></td>
+            <td>Languages</td>
+            <td id="language"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        
       </div>
     </div>
+  </div>
+</div>
+
     <!-- Weather Modal -->
-    <div
-      class="modal fade"
-      id="weatherModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="weatherModalTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="weatherModalTitle">Weather</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body weather-modal">
-            <div class="weather-container">
-              <div class="current-info">
-                <div class="date-container">
-                  <div class="time" id="time">
+<div class="modal fade" id="weatherModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success">
+        <h1 class="modal-title fs-5 text-white" id="weatherModalLabel">Weather Forecast</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body weather-modal">
+        <div class="container">
+          <div class="current-info">
+            <div class="date-container">
+                <div class="time" id="time">
                     12:30 <span id="am-pm">PM</span>
-                  </div>
-                  <div class="date" id="date">Monday, 25 May</div>
-
-                  <div class="others" id="current-weather-items"></div>
+                </div>
+                <div class="date" id="date">
+                    Monday, 25 May
                 </div>
 
-                <div class="place-container">
-                  <div class="time-zone" id="time-zone">Asia/Kolkata</div>
-                  <div id="country" class="country">IN</div>
-                </div>
-              </div>
+               
             </div>
-
-            <div class="future-forecast">
-              <div class="today" id="current-temp">
-                <img
-                  src="http://openweathermap.org/img/wn/10d@2x.png"
-                  alt="weather icon"
-                  class="w-icon"
-                />
-                <div class="other">
-                  <div class="day">Monday</div>
-                  <div class="temp">Night - 25.6&#176; C</div>
-                  <div class="temp">Day - 35.6&#176; C</div>
-                </div>
-              </div>
-
-              <div class="weather-forecast" id="weather-forecast">
-                <div class="weather-forecast-item">
-                  <div class="day">Tue</div>
-                  <img
-                    src="http://openweathermap.org/img/wn/10d@2x.png"
-                    alt="weather icon"
-                    class="w-icon"
-                  />
-                  <div class="temp">Night - 25.6&#176; C</div>
-                  <div class="temp">Day - 35.6&#176; C</div>
-                </div>
-                <div class="weather-forecast-item">
-                  <div class="day">Wed</div>
-                  <img
-                    src="http://openweathermap.org/img/wn/10d@2x.png"
-                    alt="weather icon"
-                    class="w-icon"
-                  />
-                  <div class="temp">Night - 25.6&#176; C</div>
-                  <div class="temp">Day - 35.6&#176; C</div>
-                </div>
-                <div class="weather-forecast-item">
-                  <div class="day">Thur</div>
-                  <img
-                    src="http://openweathermap.org/img/wn/10d@2x.png"
-                    alt="weather icon"
-                    class="w-icon"
-                  />
-                  <div class="temp">Night - 25.6&#176; C</div>
-                  <div class="temp">Day - 35.6&#176; C</div>
-                </div>
-                <div class="weather-forecast-item">
-                  <div class="day">Fri</div>
-                  <img
-                    src="http://openweathermap.org/img/wn/10d@2x.png"
-                    alt="weather icon"
-                    class="w-icon"
-                  />
-                  <div class="temp">Night - 25.6&#176; C</div>
-                  <div class="temp">Day - 35.6&#176; C</div>
-                </div>
-                <div class="weather-forecast-item">
-                  <div class="day">Sat</div>
-                  <img
-                    src="http://openweathermap.org/img/wn/10d@2x.png"
-                    alt="weather icon"
-                    class="w-icon"
-                  />
-                  <div class="temp">Night - 25.6&#176; C</div>
-                  <div class="temp">Day - 35.6&#176; C</div>
-                </div>
-              </div>
+            <div class="place-container">
+                <div class="time-zone" id="time-zone">Asia/Kolkata</div>
+                <div id="country" class="country">IN</div>
             </div>
           </div>
+                       <div class="others" id="current-weather-items">
+                    
+                    
+                </div>
+
+
+        
+    </div>
+
+    <div class="future-forecast">
+        <div class="today" id="current-temp">
+            <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="weather icon" class="w-icon">
+            <div class="other">
+                <div class="day"></div>
+                <div class="temp"></div>
+                <div class="temp">35.6&#176; C</div>
+            </div>
         </div>
+
+        <div class="weather-forecast" id="weather-forecast">
+            <div class="weather-forecast-item">
+                <div class="day">Tue</div>
+                <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp">25.6&#176; C</div>
+                <div class="temp">35.6&#176; C</div>
+            </div>
+            <div class="weather-forecast-item">
+                <div class="day">Wed</div>
+                <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp"> 25.6&#176; C</div>
+                <div class="temp"> 35.6&#176; C</div>
+            </div>
+            <div class="weather-forecast-item">
+                <div class="day">Thur</div>
+                <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp"> 25.6&#176; C</div>
+                <div class="temp"> 35.6&#176; C</div>
+            </div>
+            <div class="weather-forecast-item">
+                <div class="day">Fri</div>
+                <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp"> 25.6&#176; C</div>
+                <div class="temp"> 35.6&#176; C</div>
+            </div>
+            <div class="weather-forecast-item">
+                <div class="day">Sat</div>
+                <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp"> 25.6&#176; C</div>
+                <div class="temp"> 35.6&#176; C</div>
+            </div>
+            <div class="weather-forecast-item">
+                <div class="day">Sun</div>
+                <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp"> 25.6&#176; C</div>
+                <div class="temp"> 35.6&#176; C</div>
+            </div>
+
+        </div>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        
       </div>
     </div>
+  </div>
+</div>
+    
     <!-- Currency Modal -->
-    <div
-      class="modal fade"
-      id="currencyModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="currencyModalTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="currencyModalTitle">
-              Currency exchange rate
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+   <div class="modal fade" id="currencyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success">
+        <h1 class="modal-title fs-5 text-white" id="currencyModalLabel">Currency Calculator</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+
+          <div class="form-floating mb-3">
+
+            <input id="fromAmount" type="number" class="form-control" value="1" min="1" step="1">
+            <label >From USD </label>
+
           </div>
-          <div class="modal-body currency-body">
-            <div class="currency-container">
-              <div class="wrapper">
-                <form>
-                  <div class="amount">
-                    <p>Amount</p>
-                    <input type="text" value="1" id="amount" />
-                  </div>
-                  <div class="convert_box">
-                    <div class="from">
-                      <p>From</p>
-                      <div class="select_input">
-                        <img
-                          src="https://flagcdn.com/48x36/us.png"
-                          alt=""
-                        /><span class="currency-name"> USD</span>
-                      </div>
-                    </div>
-                    <div class="to">
-                      <p>To</p>
-                      <div class="select_input">
-                        <img src="" alt="" id="countryCurrencyFlag" />
-                        <span id="countryCurrency" class="currency-name">
-                        </span>
-                      </div>
-                    </div>
-                    <div class="result" id="result">
-                      Getting Exchange Rate............
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
+
+          <div class="form-floating mb-3">
+
+            <select id="exchangeRate" class="form-select">
+              
+            </select>
+            
+            <label for="exchangeRate">Convert to</label>
+
           </div>
-        </div>
+
+          <div class="form-floating">
+
+            <input id="toAmount" type="text" class="form-control" disabled>
+            <label for="toAmount">Result</label>
+
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        
       </div>
     </div>
+  </div>
+</div>
+
     <!-- Wikipedia Modal -->
-    <div
-      class="modal fade"
-      id="wikipediaModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="wikipediaModalTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="wikipediaModalTitle">Wikipedia Page</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <embed
-              title="Country details"
-              width="100%"
-              height="300"
-              id="wikidata"
-              src=""
-            />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal">
-              Close
-            </button>
-          </div>
-        </div>
+    <div class="modal fade" id="wikiModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success">
+        <h1 class="modal-title fs-5 text-white" id="wikiModalLabel"><i class="fa-brands fa-wikipedia-w"></i></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <p> To learn more about the country <span class="name"></span>, please click on the Wikipedia link <a href="" target="_blank" id="wikiUrl"><span id="wikiUrlTitle"></span></a></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        
       </div>
     </div>
+  </div>
+</div>
+    
+    <!-- News Modal -->
+    <div class="modal fade" id="newsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success">
+        <h1 class="modal-title fs-5 text-white" id="newsModalLabel">News</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="newsModalBody">  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <script type="application/javascript" src="lib/js/leaflet.js"></script>
     <script
       type="application/javascript"
@@ -363,7 +270,7 @@
       type="application/javascript"
       src="lib/js/jquery-3.7.1.min.js"
     ></script>
-    <script type="application/javascript" src="lib/js/script.js"></script>
+    <script type="application/javascript" src="lib/js/easy-button.js"></script>
     <script type="application/javascript" src="lib/js/moment.min.js"></script>
     <script
       type="application/javascript"
@@ -374,5 +281,8 @@
       src="lib/js/leaflet.extra-markers.min.js"
       type="application/javascript"
     ></script>
+    <script type="application/javascript" src="lib/js/toastify.js"></script>
+    <script type="application/javascript" src="lib/js/numeral.min.js"></script>
+    <script type="application/javascript" src="lib/js/script.js"></script>
   </body>
 </html>
