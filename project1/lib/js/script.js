@@ -77,7 +77,7 @@ var iso2, countryName, sanitizedCountryName, polygon;
 
 // initialise map and add controls & markers when DOM is ready
 
-$(document).ready(function () {
+$(window).load(function () {
   navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
   map = L.map("map", {
     layers: [Street],
