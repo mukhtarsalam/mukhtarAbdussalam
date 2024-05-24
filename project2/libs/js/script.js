@@ -267,7 +267,6 @@ $("#addLocationForm").on("submit", function (e) {
       }
     },
     error: function (error) {
-      console.log(error);
       alert("There was an error adding new location.");
     },
   });
@@ -329,7 +328,6 @@ $("#editPersonnelForm").on("submit", function (e) {
     data: formData,
     dataType: "json",
     success: function (response) {
-      console.log(response.status.code);
       if (response.status.code === "200") {
         $("#editPersonnelModal").toggle();
         confirmChangeString("Person edited");
@@ -367,7 +365,6 @@ $("#editDepartmentForm").on("submit", function (e) {
       }
     },
     error: function (error) {
-      console.log(error);
       alert("An error occurred: " + error.statusText);
     },
   });
@@ -767,7 +764,6 @@ function search(searchTerm) {
         } else {
           $("#personnelTableBody").empty();
           var resultData = result.data.found;
-          console.log(resultData);
           for (let i = 0; i < resultData.length; i++) {
             $("#personnelTableBody").append(
               $(`<tr data-department-id="${resultData[i].departmentID}">
