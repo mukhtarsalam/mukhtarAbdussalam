@@ -1,11 +1,9 @@
 <?php
-
 	$executionStartTime = microtime(true);
 
 	include("config.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
-
 
 	if (mysqli_connect_errno()) {
 		
@@ -23,13 +21,15 @@
 
 	}	
 
-	// SQL does not accept parameters and so is not prepared
-
-	$query = 'SELECT `id`, `name` FROM location  ORDER BY name ASC';
-
-	$result = $conn->query($query);
 	
-	if (!$result) {
+
+	$query = $conn->prepare('SELECT `p`.`id`, `p`.`firstName`, `p`.`lastName`, `p`.`email`, `p`.`jobTitle`, `d`.`id` as `departmentID`, `d`.`name` AS `departmentName`, `l`.`id` as `locationID`, `l`.`name` AS `locationName` FROM `personnel` `p` LEFT JOIN `department` `d` ON (`d`.`id` = `p`.`departmentID`) LEFT JOIN `location` `l` ON (`l`.`id` = `d`.`locationID`) WHERE `d`.`locationID` = ? ORDER BY `p`.`lastName`, `p`.`firstName`, `d`.`name`, `l`.`name`');
+
+  $query->bind_param("i", $_GET['id']);
+
+	$query->execute();
+	
+	if (false === $query) {
 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
@@ -43,12 +43,14 @@
 		exit;
 
 	}
-   
-  $data = [];
+    
+	$result = $query->get_result();
+
+  $found = [];
 
 	while ($row = mysqli_fetch_assoc($result)) {
 
-		array_push($data, $row);
+		array_push($found, $row);
 
 	}
 
@@ -56,7 +58,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = $data;
+	$output['data']['found'] = $found;
 	
 	mysqli_close($conn);
 

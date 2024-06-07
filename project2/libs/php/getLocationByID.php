@@ -22,7 +22,7 @@
 	}	
 
 	
-	$query = $conn->prepare('SELECT * FROM location WHERE id =  ?');
+	$query = $conn->prepare('SELECT `id`, `name` FROM location WHERE id =  ?');
 
 	$query->bind_param("i", $_POST['id']);
 

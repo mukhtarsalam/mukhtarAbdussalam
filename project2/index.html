@@ -14,10 +14,6 @@
       <div class="appHeader">
         <!-- Primary header -->
         <div class="row">
-          <div class="col text-start" title="Company Directory">
-            <span class="text-primary fs-3 fw-bold">Company Directory</span>
-            <i class="fa-solid fa-folder-open text-primary fs-3"></i>
-          </div>
           <div class="col">
             <input
               id="searchInp"
@@ -109,7 +105,7 @@
           tabindex="0"
         >
           <table class="table table-hover">
-            <tbody id="personnelTableBody">
+            <tbody id="personnelTableBody" class="table">
               <!-- Below is an example row. Create a JS function that interogates the database and 
           dynamically creates the HTML for the table contents. -->
               <tr class="d-none" id="noUser">
@@ -165,7 +161,8 @@
         id="addPersonnelModal"
         class="modal fade"
         tabindex="-1"
-        role="dialog"
+        data-bs-backdrop="false"
+        data-bs-keyboard="false"
         aria-labelledby="addPersonnelModalTitle"
         area-hidden="true"
       >
@@ -267,7 +264,8 @@
         id="addDepartmentModal"
         class="modal fade"
         tabindex="-1"
-        role="dialog"
+        data-bs-backdrop="false"
+        data-bs-keyboard="false"
         aria-labelledby="addDepartmentModalTitle"
         area-hidden="true"
       >
@@ -332,7 +330,8 @@
         id="addLocationModal"
         class="modal fade"
         tabindex="-1"
-        role="dialog"
+        data-bs-backdrop="false"
+        data-bs-keyboard="false"
         aria-labelledby="addLocationModalTitle"
         area-hidden="true"
       >
@@ -630,6 +629,8 @@
         class="modal fade"
         tabindex="-1"
         role="dialog"
+        data-bs-backdrop="false"
+        data-bs-keyboard="false"
       >
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -643,7 +644,7 @@
               <p><span id="confirmChangesElement"></span> successfully!</p>
             </div>
 
-            <div class="modal-footer border-0">
+            <div class="modal-footer">
               <button
                 type="button"
                 class="btn btn-primary close"
@@ -661,6 +662,8 @@
         class="modal fade"
         tabindex="-1"
         role="dialog"
+        data-bs-backdrop="false"
+        data-bs-keyboard="false"
         aria-labelledby="alertModalTitle"
         area-hidden="true"
       >
@@ -669,8 +672,8 @@
           role="document"
         >
           <div class="modal-content">
-            <div class="modal-header bg-danger bg-gradient text-white">
-              <h5 class="modal-title text-dark">Confirm</h5>
+            <div class="modal-header bg-primary bg-gradient text-white">
+              <h5 class="modal-title" id="removeTitle"></h5>
               <button
                 type="button"
                 class="btn-close btn-close-white"
@@ -680,26 +683,26 @@
             </div>
 
             <div class="modal-body">
-              <h5>
-                Are you sure you want to delete this
-                <span id="deleteElementMessage"></span>?
-              </h5>
+              <p>
+                Are you sure you want to delete the entry for
+                <span id="deleteElementMessage" class="fw-bold"></span>?
+              </p>
             </div>
 
             <div class="modal-footer border-0">
               <button
                 type="submit"
                 id="deleteElementBtn"
-                class="btn btn-outline-danger btn-sm myBtn"
+                class="btn btn-outline-primary btn-sm myBtn"
               >
-                DELETE
+                YES
               </button>
               <button
                 type="button"
-                class="btn btn-outline-danger btn-sm myBtn"
+                class="btn btn-outline-primary btn-sm myBtn"
                 data-bs-dismiss="modal"
               >
-                CANCEL
+                NO
               </button>
             </div>
           </div>
@@ -711,32 +714,49 @@
         class="modal fade"
         tabindex="-1"
         role="dialog"
+        data-bs-backdrop="false"
+        data-bs-keyboard="false"
       >
         <div
-          class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-          role="document"
+          class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable"
         >
-          <div class="modal-content">
-            <div class="modal-header bg-dark">
-              <h5 class="modal-title text-success"></h5>
+          <div class="modal-content shadow">
+            <div class="modal-header bg-primary bg-gradient text-white">
+              <h5 class="modal-title">Filter employees</h5>
+              <button
+                type="button"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
 
-            <div class="modal-body bg-dark text-light">
-              <div id="departmentContainer">
-                <!-- Items will be populated here -->
+            <div class="modal-body">
+              <div class="form-floating mb-3">
+                <select
+                  class="form-select"
+                  id="filterByDepartment"
+                  placeholder="Department"
+                ></select>
+                <label for="filterByDepartment">Department</label>
+              </div>
+              <div class="form-floating mb-3">
+                <select
+                  class="form-select"
+                  id="filterByLocation"
+                  placeholder="Location"
+                ></select>
+                <label for="filterByLocation">Location</label>
               </div>
             </div>
 
-            <div class="modal-footer bg-dark border-0">
+            <div class="modal-footer">
               <button
                 type="button"
                 class="btn btn-outline-primary close"
                 data-bs-dismiss="modal"
               >
-                Close
-              </button>
-              <button type="submit" id="filter" class="btn btn-primary myBtn">
-                FILTER
+                CLOSE
               </button>
             </div>
           </div>
@@ -749,6 +769,8 @@
         class="modal fade"
         tabindex="-1"
         role="dialog"
+        data-bs-backdrop="false"
+        data-bs-keyboard="false"
         aria-labelledby="notAllowedMessageModalTitle"
         area-hidden="true"
       >
@@ -756,11 +778,11 @@
           class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
           role="document"
         >
-          <div class="modal-content">
-            <div class="modal-header bg-danger bg-gradient text-white">
-              <h5 class="modal-title">
-                <i class="fa-solid fa-ban"></i> Not Allowed
-              </h5>
+          <div class="modal-content shadow">
+            <div class="modal-header bg-primary bg-gradient text-white">
+              <p class="modal-title" id="cannot">
+                <i class="fa-solid fa-ban"></i> Cannot remove
+              </p>
               <button
                 type="button"
                 class="btn-close btn-close-white"
@@ -769,21 +791,20 @@
               ></button>
             </div>
 
-            <div class="modal-body bg-dark">
-              <h6 class="text-light">
-                You can't delete this
-                <span id="notAllowedMessageMessage"></span> because it has
-                dependencies.
+            <div class="modal-body">
+              <h6>
+                You cannot delete the
+                <span id="notAllowedMessageMessage"></span>
               </h6>
             </div>
 
-            <div class="modal-footer bg-dark border-0">
+            <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-outline-danger btn-sm myBtn"
+                class="btn btn-outline-primary btn-sm myBtn"
                 data-bs-dismiss="modal"
               >
-                CANCEL
+                OK
               </button>
             </div>
           </div>

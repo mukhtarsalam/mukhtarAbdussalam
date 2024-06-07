@@ -23,9 +23,40 @@ if(!$success) {
 
 $result = $checkDependenciesQuery->get_result();
 $row = $result->fetch_assoc();
+$query = $conn->prepare('SELECT id, name  FROM location WHERE id =  ?');
+
+	$query->bind_param("i", $_POST['id']);
+
+	$query->execute();
+	
+	if (false === $query) {
+
+		$output['status']['code'] = "400";
+		$output['status']['name'] = "executed";
+		$output['status']['description'] = "query failed";	
+		$output['data'] = [];
+
+		echo json_encode($output); 
+	
+		mysqli_close($conn);
+		exit;
+
+	}
+
+	$result = $query->get_result();
+
+   	$location = [];
+
+	while ($locationRow = mysqli_fetch_assoc($result)) {
+
+		array_push($location, $locationRow);
+
+	}
 
 if ($row['COUNT(*)'] > 0) {
     $output['hasDependencies'] = true;
+    $output['dependencies'] = $row['COUNT(*)'];
+    $output['data'] = $location;
 } else {
     $output['hasDependencies'] = false;
 }
