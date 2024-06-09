@@ -10,7 +10,7 @@
   </head>
   <body>
     <section>
-      <div id="preloader"></div>
+      <!-- <div id="preloader"></div> -->
       <div class="appHeader">
         <!-- Primary header -->
         <div class="row">
@@ -104,15 +104,18 @@
           aria-labelledby="home-tab"
           tabindex="0"
         >
-          <table class="table table-hover">
-            <tbody id="personnelTableBody" class="table">
-              <!-- Below is an example row. Create a JS function that interogates the database and 
+          <form action="" id="deletePersonnel">
+            <table class="table table-hover">
+              <tbody id="personnelTableBody">
+                <!-- Below is an example row. Create a JS function that interogates the database and 
           dynamically creates the HTML for the table contents. -->
-              <tr class="d-none" id="noUser">
-                <td>No user found.</td>
-              </tr>
-            </tbody>
-          </table>
+
+                <tr class="d-none" id="noUser">
+                  <td>No user found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
         </div>
 
         <!-- End of personnel tab-pane -->
@@ -125,12 +128,14 @@
           aria-labelledby="profile-tab"
           tabindex="0"
         >
-          <table class="table table-hover">
-            <tbody id="departmentTableBody">
-              <!-- Below is an example row. Create a JS function that interogates the database and 
+          <form action="" id="deleteDepartment">
+            <table class="table table-hover">
+              <tbody id="departmentTableBody">
+                <!-- Below is an example row. Create a JS function that interogates the database and 
           dynamically creates the HTML for the table contents. -->
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </form>
         </div>
 
         <!-- End of department tab-pane -->
@@ -143,12 +148,14 @@
           aria-labelledby="contact-tab"
           tabindex="0"
         >
-          <table class="table table-hover">
-            <tbody id="locationTableBody">
-              <!-- Below is an example row. Create a JS function that interogates the database and 
+          <form action="" id="deleteLocation">
+            <table class="table table-hover">
+              <tbody id="locationTableBody">
+                <!-- Below is an example row. Create a JS function that interogates the database and 
           dynamically creates the HTML for the table contents. -->
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </form>
         </div>
 
         <!-- End of location tab-pane -->
@@ -689,7 +696,7 @@
               </p>
             </div>
 
-            <div class="modal-footer border-0">
+            <div class="modal-footer">
               <button
                 type="submit"
                 id="deleteElementBtn"
@@ -810,6 +817,7 @@
           </div>
         </div>
       </div>
+
       <footer class="border-top text-center fw-bold">
         <p class="fw-light my-3">Company Directory version 1.0</p>
       </footer>

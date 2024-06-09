@@ -40,18 +40,24 @@ $("#filterBtn").click(function () {
 });
 $("#filterByDepartment").change(function () {
   if (this.value > 0) {
-    $("#filterByLocation").val(0);
+    $("#filterByLocation").val(-1);
     var departmentID = $(this).val();
     // apply Filter
     filterPersonnelByDepartment(departmentID);
+  } else {
+    $("#filterByLocation").val(0);
+    getAll();
   }
 });
 $("#filterByLocation").change(function () {
   if (this.value > 0) {
-    $("#filterByDepartment").val(0);
+    $("#filterByDepartment").val(-1);
     var locationID = $(this).val();
     // apply Filter
     filterPersonnelByLocation(locationID);
+  } else {
+    $("#filterByDepartment").val(0);
+    getAll();
   }
 });
 $("#addBtn").click(function () {
@@ -207,7 +213,9 @@ $("#editLocationModal").on("show.bs.modal", function (e) {
     },
   });
 });
-$("#filterEmployeesModal").on("show.bs.modal", function (e) {
+$("#filterEmployeesModal").on("show.bs.modal", function () {
+  var currentDepartment = $("#filterByDepartment").val();
+  var currentLocation = $("#filterByLocation").val();
   $.ajax({
     url: "libs/php/getAllDepartments.php",
     type: "POST",
@@ -217,6 +225,12 @@ $("#filterEmployeesModal").on("show.bs.modal", function (e) {
       var resultCode = result.status.code;
       if (resultCode == 200) {
         $("#filterByDepartment").empty();
+        $("#filterByDepartment").append(
+          $("<option>", {
+            value: 0,
+            text: "All",
+          })
+        );
         result.data.forEach(function (item, index) {
           $("#filterByDepartment").append(
             $("<option>", {
@@ -225,6 +239,11 @@ $("#filterEmployeesModal").on("show.bs.modal", function (e) {
             })
           );
         });
+        if (currentDepartment > 0) {
+          $("#filterByDepartment").val(currentDepartment);
+        } else {
+          $("#filterByDepartment").val(0);
+        }
       } else {
         $("#filterEmployeesModal .modal-title").replaceWith(
           "Error retrieving data"
@@ -246,6 +265,12 @@ $("#filterEmployeesModal").on("show.bs.modal", function (e) {
       var resultCode = result.status.code;
       if (resultCode == 200) {
         $("#filterByLocation").empty();
+        $("#filterByLocation").append(
+          $("<option>", {
+            value: 0,
+            text: "All",
+          })
+        );
         result.data.forEach(function (item, index) {
           $("#filterByLocation").append(
             $("<option>", {
@@ -254,6 +279,11 @@ $("#filterEmployeesModal").on("show.bs.modal", function (e) {
             })
           );
         });
+        if (currentLocation > 0) {
+          $("#filterByLocation").val(currentLocation);
+        } else {
+          $("#filterByLocation").val(0);
+        }
       } else {
         $("#filterEmployeesModal .modal-title").replaceWith(
           "Error retrieving data"
@@ -262,6 +292,68 @@ $("#filterEmployeesModal").on("show.bs.modal", function (e) {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       $("#filterEmployeesModal .modal-title").replaceWith(
+        "Error retrieving data"
+      );
+    },
+  });
+});
+$("#addPersonnelModal").on("show.bs.modal", function (e) {
+  $.ajax({
+    url: "libs/php/getAllDepartments.php",
+    type: "POST",
+    dataType: "json",
+    data: {},
+    success: function (result) {
+      var resultCode = result.status.code;
+      if (resultCode == 200) {
+        $("#personnelDepartment").empty();
+        result.data.forEach(function (item, index) {
+          $("#personnelDepartment").append(
+            $("<option>", {
+              value: item.id,
+              text: item.name,
+            })
+          );
+        });
+      } else {
+        $("#personnelDepartment .modal-title").replaceWith(
+          "Error retrieving data"
+        );
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $("#personnelDepartment .modal-title").replaceWith(
+        "Error retrieving data"
+      );
+    },
+  });
+});
+$("#addDepartmentModal").on("show.bs.modal", function (e) {
+  $.ajax({
+    url: "libs/php/getAllLocation.php",
+    type: "POST",
+    dataType: "json",
+    data: {},
+    success: function (result) {
+      var resultCode = result.status.code;
+      if (resultCode == 200) {
+        $("#departmentLocation").empty();
+        result.data.forEach(function (item, index) {
+          $("#departmentLocation").append(
+            $("<option>", {
+              value: item.id,
+              text: item.name,
+            })
+          );
+        });
+      } else {
+        $("#departmentLocation .modal-title").replaceWith(
+          "Error retrieving data"
+        );
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $("#departmentLocation .modal-title").replaceWith(
         "Error retrieving data"
       );
     },
@@ -460,8 +552,10 @@ $(document).ready(function () {
 
 // Deleting data
 // Personnel Delete Button
-$(document).on("click", ".deletePersonnelBtn", function () {
-  var personnelID = $(this).data("id");
+$("#deletePersonnel").on("submit", function (e) {
+  e.preventDefault(); // prevent default form submission
+  var submitter = e.originalEvent.submitter;
+  var personnelID = submitter.value;
   $.ajax({
     url: "libs/php/getPersonnelByID.php",
     type: "POST",
@@ -507,8 +601,10 @@ function deletePersonnel(id) {
   });
 }
 // Department Delete Button
-$(document).on("click", ".deleteDepartmentBtn", function () {
-  var departmentID = $(this).data("id");
+$("#deleteDepartment").on("submit", function (e) {
+  e.preventDefault(); // prevent default form submission
+  var submitter = e.originalEvent.submitter;
+  var departmentID = submitter.value;
 
   $.ajax({
     url: "libs/php/checkDepartmentDependencies.php",
@@ -575,8 +671,10 @@ function deleteDepartment(id) {
   });
 }
 // Location Delete Button
-$(document).on("click", ".deleteLocationBtn", function () {
-  var locationID = $(this).data("id");
+$("#deleteLocation").on("submit", function (e) {
+  e.preventDefault(); // prevent default form submission
+  var submitter = e.originalEvent.submitter;
+  var locationID = submitter.value;
 
   $.ajax({
     url: "libs/php/checkLocationDependencies.php",
@@ -659,7 +757,6 @@ function getAll() {
         var personnelTableBody = document.getElementById("personnelTableBody");
         result.data.forEach(function (item, index) {
           var row = personnelTableBody.insertRow();
-
           var name = row.insertCell();
           name.classList = "align-middle text-nowrap";
           var firstName = document.createTextNode(item.firstName);
@@ -688,15 +785,17 @@ function getAll() {
           editBtn.setAttribute("data-bs-toggle", "modal");
           editBtn.setAttribute("data-bs-target", "#editPersonnelModal");
           editBtn.setAttribute("data-id", item.id);
+          editBtn.type = "button";
           var editIcon = document.createElement("i");
           editIcon.classList = "fa-solid fa-pencil fa-fw ";
           editBtn.classList = "btn bg-primary text-light btn-sm";
           editBtn.appendChild(editIcon);
 
           var deleteBtn = document.createElement("button");
-          deleteBtn.setAttribute("data-id", item.id);
-          deleteBtn.classList =
-            "btn bg-primary text-light deletePersonnelBtn btn-sm";
+          deleteBtn.setAttribute("value", item.id);
+          deleteBtn.type = "submit";
+          deleteBtn.form = "deletePersonnel";
+          deleteBtn.classList = "btn bg-primary text-light btn-sm";
           var deleteIcon = document.createElement("i");
           deleteIcon.classList = "fa-solid fa-trash fa-fw ";
           deleteBtn.appendChild(deleteIcon);
@@ -750,27 +849,23 @@ function getAllDepartments() {
           editBtn.setAttribute("data-bs-toggle", "modal");
           editBtn.setAttribute("data-bs-target", "#editDepartmentModal");
           editBtn.setAttribute("data-id", item.id);
+          editBtn.type = "button";
           var editIcon = document.createElement("i");
           editIcon.classList = "fa-solid fa-pencil fa-fw ";
           editBtn.classList = "btn bg-primary text-light btn-sm";
           editBtn.appendChild(editIcon);
 
           var deleteBtn = document.createElement("button");
-          deleteBtn.setAttribute("data-id", item.id);
-          deleteBtn.classList =
-            "btn bg-primary text-light deleteDepartmentBtn btn-sm";
+          deleteBtn.setAttribute("value", item.id);
+          deleteBtn.type = "submit";
+          deleteBtn.form = "deleteDepartment";
+          deleteBtn.classList = "btn bg-primary text-light btn-sm";
           var deleteIcon = document.createElement("i");
           deleteIcon.classList = "fa-solid fa-trash fa-fw ";
           deleteBtn.appendChild(deleteIcon);
           actions.append(editBtn);
           actions.append(" ");
           actions.append(deleteBtn);
-          $("#personnelDepartment").append(
-            $("<option>", {
-              value: item.id,
-              text: item.name,
-            })
-          );
         });
       }
     },
@@ -802,27 +897,23 @@ function getAllLocation() {
           editBtn.setAttribute("data-bs-toggle", "modal");
           editBtn.setAttribute("data-bs-target", "#editLocationModal");
           editBtn.setAttribute("data-id", item.id);
+          editBtn.type = "button";
           var editIcon = document.createElement("i");
           editIcon.classList = "fa-solid fa-pencil fa-fw ";
           editBtn.classList = "btn bg-primary text-light btn-sm";
           editBtn.appendChild(editIcon);
 
           var deleteBtn = document.createElement("button");
-          deleteBtn.setAttribute("data-id", item.id);
-          deleteBtn.classList =
-            "btn bg-primary text-light deleteLocationBtn btn-sm";
+          deleteBtn.setAttribute("value", item.id);
+          deleteBtn.type = "submit";
+          deleteBtn.form = "deleteLocation";
+          deleteBtn.classList = "btn bg-primary text-light btn-sm";
           var deleteIcon = document.createElement("i");
           deleteIcon.classList = "fa-solid fa-trash fa-fw ";
           deleteBtn.appendChild(deleteIcon);
           actions.append(editBtn);
           actions.append(" ");
           actions.append(deleteBtn);
-          $("#departmentLocation").append(
-            $("<option>", {
-              value: item.id,
-              text: item.name,
-            })
-          );
         });
       }
     },
@@ -914,15 +1005,17 @@ function search(searchTerm) {
             editBtn.setAttribute("data-bs-toggle", "modal");
             editBtn.setAttribute("data-bs-target", "#editPersonnelModal");
             editBtn.setAttribute("data-id", item.id);
+            editBtn.type = "button";
             var editIcon = document.createElement("i");
             editIcon.classList = "fa-solid fa-pencil fa-fw ";
             editBtn.classList = "btn bg-primary text-light btn-sm";
             editBtn.appendChild(editIcon);
 
             var deleteBtn = document.createElement("button");
-            deleteBtn.setAttribute("data-id", item.id);
-            deleteBtn.classList =
-              "btn bg-primary text-light deletePersonnelBtn btn-sm";
+            deleteBtn.setAttribute("value", item.id);
+            deleteBtn.type = "submit";
+            deleteBtn.form = "deletePersonnel";
+            deleteBtn.classList = "btn bg-primary text-light btn-sm";
             var deleteIcon = document.createElement("i");
             deleteIcon.classList = "fa-solid fa-trash fa-fw ";
             deleteBtn.appendChild(deleteIcon);
@@ -988,15 +1081,17 @@ function filterPersonnelByDepartment(departmentID) {
             editBtn.setAttribute("data-bs-toggle", "modal");
             editBtn.setAttribute("data-bs-target", "#editPersonnelModal");
             editBtn.setAttribute("data-id", item.id);
+            editBtn.type = "button";
             var editIcon = document.createElement("i");
             editIcon.classList = "fa-solid fa-pencil fa-fw ";
             editBtn.classList = "btn bg-primary text-light btn-sm";
             editBtn.appendChild(editIcon);
 
             var deleteBtn = document.createElement("button");
-            deleteBtn.setAttribute("data-id", item.id);
-            deleteBtn.classList =
-              "btn bg-primary text-light deletePersonnelBtn btn-sm";
+            deleteBtn.setAttribute("value", item.id);
+            deleteBtn.type = "submit";
+            deleteBtn.form = "deletePersonnel";
+            deleteBtn.classList = "btn bg-primary text-light btn-sm";
             var deleteIcon = document.createElement("i");
             deleteIcon.classList = "fa-solid fa-trash fa-fw ";
             deleteBtn.appendChild(deleteIcon);
@@ -1061,15 +1156,17 @@ function filterPersonnelByLocation(locationID) {
             editBtn.setAttribute("data-bs-toggle", "modal");
             editBtn.setAttribute("data-bs-target", "#editPersonnelModal");
             editBtn.setAttribute("data-id", item.id);
+            editBtn.type = "button";
             var editIcon = document.createElement("i");
             editIcon.classList = "fa-solid fa-pencil fa-fw ";
             editBtn.classList = "btn bg-primary text-light btn-sm";
             editBtn.appendChild(editIcon);
 
             var deleteBtn = document.createElement("button");
-            deleteBtn.setAttribute("data-id", item.id);
-            deleteBtn.classList =
-              "btn bg-primary text-light deletePersonnelBtn btn-sm";
+            deleteBtn.setAttribute("value", item.id);
+            deleteBtn.type = "submit";
+            deleteBtn.form = "deletePersonnel";
+            deleteBtn.classList = "btn bg-primary text-light btn-sm";
             var deleteIcon = document.createElement("i");
             deleteIcon.classList = "fa-solid fa-trash fa-fw ";
             deleteBtn.appendChild(deleteIcon);
